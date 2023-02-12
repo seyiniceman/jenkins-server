@@ -12,7 +12,7 @@ terraform {
     bucket = "austinobioma-docker-statefile"
     region = "us-east-1"
     profile = "dec-user"
-    key    = "tfstate"
+    key    = "jenkins-statefile"
 
   }
 }
@@ -89,7 +89,7 @@ resource "aws_security_group" "ec2_security_group" {
   }
 
   tags   = {
-    Name = "Docker server security group"
+    Name = "Jenkins server security group"
   }
 }
 
