@@ -1,7 +1,8 @@
-#!/bin/sh
+#!bin/bash
+
 sudo apt update
 sudo apt install openjdk-11-jdk -y
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 62A9756BFD780C377CF24BA8FCEF32E745F2C3D5
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5BA31D57EF5975CA
 wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
 sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 sudo apt install ca-certificates
@@ -11,6 +12,7 @@ sudo apt install maven -y
 sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 sudo apt update
 sudo apt install jenkins -y
+sudo apt-get update -y
 sudo apt-get update 
 wget -O- https://apt.releases.hashicorp.com/gpg | \
     gpg --dearmor | \
@@ -29,9 +31,6 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt-key fingerprint 0EBFCD88
 sudo apt-get update 
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
-sudo usermod -aG docker jenkins
-sudo usermod -aG docker ubuntu
-sudo usermod -aG docker $USER
 
 sudo apt install awscli -y
 wget https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz
