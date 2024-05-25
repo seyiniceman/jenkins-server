@@ -3,17 +3,17 @@ provider "aws" {
   region    = "us-east-2"
   shared_config_files      = ["/Users/austi/.aws/conf"]
   shared_credentials_files = ["/Users/austi/.aws/credentials"]
-  profile                  = "austinobioma-realcloud"
+  profile                  = "austin"
 }
 
 # Create a remote backend for your terraform 
 terraform {
   backend "s3" {
-    bucket = "austinobioma-docker-tfstate"
+    bucket = "may-class-devops-austin"
     dynamodb_table = "app-state"
     key    = "LockID"
     region = "us-east-1"
-    profile = "austinobioma-realcloud"
+    profile = "austin"
   }
 }
 
@@ -43,7 +43,7 @@ resource "aws_default_subnet" "default_az1" {
 
 # create security group for the ec2 instance
 resource "aws_security_group" "ec2_security_group" {
-  name        = "ec2 security group"
+  name        = "instance security group"
   description = "allow access on ports 8080 and 22"
   vpc_id      = aws_default_vpc.default_vpc.id
 
@@ -114,12 +114,12 @@ data "aws_ami" "ubuntu" {
 
 # launch the ec2 instance and install website
 
-resource "aws_instance" "ec2_instance" {
+resource "aws_instance" "ec2_instance1" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.small"
   subnet_id              = aws_default_subnet.default_az1.id
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
-  key_name               = "Feb-Class"
+  key_name               = "may_key"
   user_data            = "${file("jenkins_install.sh")}"
 
   tags = {
@@ -127,15 +127,15 @@ resource "aws_instance" "ec2_instance" {
   }
 }
 
-# resource "aws_instance" "ec2_instance1" {
-#   ami                    = data.aws_ami.ubuntu.id
-#   instance_type          = "t2.micro"
-#   subnet_id              = aws_default_subnet.default_az1.id
-#   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
-#   key_name               = "Feb-Class"
-#   user_data            = "${file("docker-install.sh")}"
+resource "aws_instance" "ec2_instance2" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.micro"
+  subnet_id              = aws_default_subnet.default_az1.id
+  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
+  key_name               = "may_key"
+  user_data            = "${file("docker-install.sh")}"
 
-#   tags = {
-#     Name = "Docker-server"
-#   }
-# }
+  tags = {
+    Name = "Docker-server"
+  }
+}
